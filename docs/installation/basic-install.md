@@ -2,13 +2,13 @@
 
 After cloning this repository, you must choose the tag to run:
 ```sh
-git clone git@github.com:ansible/awx-operator.git
-cd awx-operator
+git clone git@github.com:ctrliq/ascender-operator.git
+cd ascender-operator
 git tag
 git checkout tags/<tag>
 
 # For instance:
-git checkout tags/2.7.2
+git checkout tags/2.19.6
 ```
 
 If you work from a fork and made modifications since the tag was issued, you must provide the VERSION number to deploy. Otherwise the operator will get stuck in "ImagePullBackOff" state:
@@ -17,10 +17,10 @@ If you work from a fork and made modifications since the tag was issued, you mus
 export VERSION=<tag>
 
 # For instance:
-export VERSION=2.7.2
+export VERSION=2.19.6
 ```
 
-Once you have a running Kubernetes cluster, you can deploy AWX Operator into your cluster using [Kustomize](https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/). Since kubectl version 1.14 kustomize functionality is built-in (otherwise, follow the instructions here to install the latest version of Kustomize: https://kubectl.docs.kubernetes.io/installation/kustomize/ )
+Once you have a running Kubernetes cluster, you can deploy Ascender Operator into your cluster using [Kustomize](https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/). Since kubectl version 1.14 kustomize functionality is built-in (otherwise, follow the instructions here to install the latest version of Kustomize: https://kubectl.docs.kubernetes.io/installation/kustomize/ )
 
 > Some things may need to be configured slightly differently for different Kubernetes flavors for the networking aspects. When installing on Kind, see the [kind install docs](./kind-install.md) for more details.
 
@@ -31,7 +31,7 @@ make deploy
 
 If you have a custom operator image you have built, you can specify it with:
 ```
-IMG=quay.io/$YOURNAMESPACE/awx-operator:$YOURTAG make deploy
+IMG=quay.io/$YOURNAMESPACE/ascender-operator:$YOURTAG make deploy
 ```
 
 Otherwise, you can manually create a file called `kustomization.yaml` with the following content:
@@ -40,12 +40,12 @@ Otherwise, you can manually create a file called `kustomization.yaml` with the f
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # Find the latest tag here: https://github.com/ansible/awx-operator/releases
-  - github.com/ansible/awx-operator/config/default?ref=<tag>
+  # Find the latest tag here: https://github.com/ctrliq/ascender-operator/releases
+  - github.com/ctrliq/ascender-operator/config/default?ref=<tag>
 
 # Set the image tags to match the git version from above
 images:
-  - name: quay.io/ansible/awx-operator
+  - name: ghcr.io/ctrliq/ascender-operator
     newTag: <tag>
 
 # Specify a custom namespace in which to install AWX
@@ -62,25 +62,25 @@ namespace/awx created
 customresourcedefinition.apiextensions.k8s.io/awxbackups.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxrestores.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxs.awx.ansible.com created
-serviceaccount/awx-operator-controller-manager created
-role.rbac.authorization.k8s.io/awx-operator-awx-manager-role created
-role.rbac.authorization.k8s.io/awx-operator-leader-election-role created
-clusterrole.rbac.authorization.k8s.io/awx-operator-metrics-reader created
-clusterrole.rbac.authorization.k8s.io/awx-operator-proxy-role created
-rolebinding.rbac.authorization.k8s.io/awx-operator-awx-manager-rolebinding created
-rolebinding.rbac.authorization.k8s.io/awx-operator-leader-election-rolebinding created
-clusterrolebinding.rbac.authorization.k8s.io/awx-operator-proxy-rolebinding created
-configmap/awx-operator-awx-manager-config created
-service/awx-operator-controller-manager-metrics-service created
-deployment.apps/awx-operator-controller-manager created
+serviceaccount/ascender-operator-controller-manager created
+role.rbac.authorization.k8s.io/ascender-operator-ascender-manager-role created
+role.rbac.authorization.k8s.io/ascender-operator-leader-election-role created
+clusterrole.rbac.authorization.k8s.io/ascender-operator-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/ascender-operator-proxy-role created
+rolebinding.rbac.authorization.k8s.io/ascender-operator-ascender-manager-rolebinding created
+rolebinding.rbac.authorization.k8s.io/ascender-operator-leader-election-rolebinding created
+clusterrolebinding.rbac.authorization.k8s.io/ascender-operator-proxy-rolebinding created
+configmap/ascender-operator-ascender-manager-config created
+service/ascender-operator-controller-manager-metrics-service created
+deployment.apps/ascender-operator-controller-manager created
 ```
 
-Wait a bit and you should have the `awx-operator` running:
+Wait a bit and you should have the `ascender-operator` running:
 
 ```
 $ kubectl get pods -n awx
 NAME                                               READY   STATUS    RESTARTS   AGE
-awx-operator-controller-manager-66ccd8f997-rhd4z   2/2     Running   0          11s
+ascender-operator-controller-manager-66ccd8f997-rhd4z   2/2     Running   0          11s
 ```
 
 So we don't have to keep repeating `-n awx`, let's set the current namespace for `kubectl`:
@@ -124,7 +124,7 @@ Make sure to add this new file to the list of "resources" in your `kustomization
 ```yaml
 ...
 resources:
-  - github.com/ansible/awx-operator/config/default?ref=<tag>
+  - github.com/ctrliq/ascender-operator/config/default?ref=<tag>
   # Add this extra line:
   - awx-demo.yml
 ...
@@ -139,7 +139,7 @@ kubectl apply -k .
 After a few minutes, the new AWX instance will be deployed. You can look at the operator pod logs in order to know where the installation process is at:
 
 ```
-$ kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+$ kubectl logs -f deployments/ascender-operator-controller-manager -c ascender-manager
 ```
 
 After a few seconds, you should see the operator begin to create new resources:

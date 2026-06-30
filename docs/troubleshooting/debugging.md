@@ -1,16 +1,16 @@
-# Debugging the AWX Operator
+# Debugging the Ascender Operator
 
 ## General Debugging
 
-When the operator is deploying AWX, it is running the `installer` role inside the operator container. If the AWX CR's status is `Failed`, it is often useful to look at the awx-operator container logs, which shows the output of the installer role. To see these logs, run:
+When the operator is deploying AWX, it is running the `installer` role inside the operator container. If the AWX CR's status is `Failed`, it is often useful to look at the ascender-operator container logs, which shows the output of the installer role. To see these logs, run:
 
 ```
-kubectl logs deployments/awx-operator-controller-manager -c awx-manager -f
+kubectl logs deployments/ascender-operator-controller-manager -c ascender-manager -f
 ```
 
 ### Inspect k8s Resources
 
-Past that, it is often useful to inspect various resources the AWX Operator manages like:
+Past that, it is often useful to inspect various resources the Ascender Operator manages like:
 * awx
 * awxbackup
 * awxrestore
@@ -45,7 +45,7 @@ kubectl exec -it -n <namespace> <pod> <pod-name>
 ### Configure No Log
 
 It is possible to show task output for debugging by setting no_log to false on the AWX CR spec.
-This will show output in the awx-operator logs for any failed tasks where no_log was set to true.
+This will show output in the ascender-operator logs for any failed tasks where no_log was set to true.
 
 For example:
 
@@ -63,7 +63,7 @@ spec:
 
 ## Iterating on the installer without deploying the operator
 
-Go through the [normal basic install](https://github.com/ansible/awx-operator/blob/devel/README.md#basic-install) steps.
+Go through the [normal basic install](https://github.com/ctrliq/ascender-operator/blob/devel/README.md#basic-install) steps.
 
 Install some dependencies:
 
@@ -75,7 +75,7 @@ $ pip install -r molecule/requirements.txt
 To prevent the changes we're about to make from being overwritten, scale down any running instance of the operator:
 
 ```
-$ kubectl scale deployment awx-operator-controller-manager --replicas=0
+$ kubectl scale deployment ascender-operator-controller-manager --replicas=0
 ```
 
 Create a playbook that invokes the installer role (the operator uses ansible-runner's role execution feature):
