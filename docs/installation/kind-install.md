@@ -81,7 +81,7 @@ images:
     newTag: 2.7.2
 
 # Specify a custom namespace in which to install AWX
-namespace: awx
+namespace: ascender
 ```
 
 Run the following to apply the yaml

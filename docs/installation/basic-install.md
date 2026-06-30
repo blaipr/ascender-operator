@@ -49,7 +49,7 @@ images:
     newTag: <tag>
 
 # Specify a custom namespace in which to install AWX
-namespace: awx
+namespace: ascender
 ```
 
 > **TIP:** If you need to change any of the default settings for the operator (such as resources.limits), you can add [patches](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/) at the bottom of your kustomization.yaml file.

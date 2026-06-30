@@ -46,7 +46,7 @@ make catalog-build catalog-push CATALOG_IMG=$CATALOG_IMG BUNDLE_IMGS=$BUNDLE_IMG
 
 # Set containerImage & namespace variables in CSV
 sed -i.bak -e "s|containerImage: ghcr.io/ctrliq/ascender-operator:latest|containerImage: ${OPERATOR_IMG}|g" bundle/manifests/ascender-operator.clusterserviceversion.yaml
-sed -i.bak -e "s|namespace: placeholder|namespace: awx|g" bundle/manifests/ascender-operator.clusterserviceversion.yaml
+sed -i.bak -e "s|namespace: placeholder|namespace: ascender|g" bundle/manifests/ascender-operator.clusterserviceversion.yaml
 
 # Add replaces to dependency graph for upgrade path
 if ! grep -qF 'replaces: ascender-operator.v${PREV_VERSION}' bundle/manifests/ascender-operator.clusterserviceversion.yaml; then

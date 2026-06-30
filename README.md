@@ -3,10 +3,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://github.com/ctrliq/ascender-operator/workflows/CI/badge.svg?event=push)](https://github.com/ctrliq/ascender-operator/actions)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Ansible-yellow.svg)](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html)
-[![AWX Mailing List](https://img.shields.io/badge/mailing%20list-AWX-orange.svg)](https://groups.google.com/g/awx-project)
-[![IRC Chat - #ansible-awx](https://img.shields.io/badge/IRC-%23ansible--awx-blueviolet.svg)](https://libera.chat)
 
-An [Ansible AWX](https://github.com/ansible/awx) operator for Kubernetes built with [Operator SDK](https://github.com/operator-framework/operator-sdk) and Ansible.
+
+An [Ascender](https://github.com/ctrliq/ascender) operator for Kubernetes built with [Operator SDK](https://github.com/operator-framework/operator-sdk) and Ansible.
 
 <!-- Regenerate this table of contents using https://github.com/ekalinin/github-markdown-toc -->
 <!-- gh-md-toc --insert README.md -->
@@ -35,7 +34,7 @@ After the draft release is created, publish it and the [Promote Ascender Operato
 
 ## Author
 
-This operator was originally built in 2019 by [Jeff Geerling](https://www.jeffgeerling.com) and is now maintained by the Ansible Team
+This operator was originally built in 2019 by [Jeff Geerling](https://www.jeffgeerling.com) and is now maintained by the Ascender Team
 
 ## Code of Conduct
 
@@ -43,6 +42,6 @@ We ask all of our community members and contributors to adhere to the [Ansible c
 
 ## Get Involved
 
-We welcome your feedback and ideas. The Ascender operator uses the same mailing list and IRC channel as AWX itself. Here's how to reach us with feedback and questions:
+We welcome your feedback and ideas. The Ascender operator uses the same forum as Ascender itself. Here's how to reach us with feedback and questions:
 
 - Join the [Ascender Community Forum](https://forum.ascender-automation.org/)
