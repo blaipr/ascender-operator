@@ -2,6 +2,6 @@
 apiVersion: awx.ansible.com/v1alpha1
 kind: AWXMeshIngress
 metadata:
-  name: Ascender-mesh-ingress-demo
+  name: ascender-mesh-ingress-demo
 spec:
-  deployment_name: Ascender-demo
+  deployment_name: ascender-demo

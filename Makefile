@@ -58,7 +58,7 @@ endif
 
 # Image URL to use all building/pushing image targets
 IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
-NAMESPACE ?= Ascender
+NAMESPACE ?= ascender
 
 # Helm variables
 CHART_NAME ?= ascender-operator
