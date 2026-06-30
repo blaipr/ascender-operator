@@ -48,7 +48,7 @@ images:
   - name: ghcr.io/ctrliq/ascender-operator
     newTag: <tag>
 
-# Specify a custom namespace in which to install AWX
+# Specify a custom namespace in which to install Ascender
 namespace: ascender
 ```
 
@@ -58,7 +58,7 @@ Install the manifests by running this:
 
 ```
 $ kubectl apply -k .
-namespace/awx created
+namespace/ascender created
 customresourcedefinition.apiextensions.k8s.io/awxbackups.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxrestores.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxs.awx.ansible.com created
@@ -78,27 +78,27 @@ deployment.apps/ascender-operator-controller-manager created
 Wait a bit and you should have the `ascender-operator` running:
 
 ```
-$ kubectl get pods -n awx
+$ kubectl get pods -n ascender
 NAME                                               READY   STATUS    RESTARTS   AGE
 ascender-operator-controller-manager-66ccd8f997-rhd4z   2/2     Running   0          11s
 ```
 
-So we don't have to keep repeating `-n awx`, let's set the current namespace for `kubectl`:
+So we don't have to keep repeating `-n ascender`, let's set the current namespace for `kubectl`:
 
 ```
-$ kubectl config set-context --current --namespace=awx
+$ kubectl config set-context --current --namespace=ascender
 ```
 
-Next, create a file named `awx-demo.yml` in the same folder with the suggested content below. The `metadata.name` you provide will be the name of the resulting AWX deployment.
+Next, create a file named `ascender-demo.yml` in the same folder with the suggested content below. The `metadata.name` you provide will be the name of the resulting Ascender deployment.
 
-**Note:** If you deploy more than one AWX instance to the same namespace, be sure to use unique names.
+**Note:** If you deploy more than one Ascender instance to the same namespace, be sure to use unique names.
 
 ```yaml
 ---
 apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
-  name: awx-demo
+  name: ascender-demo
 spec:
   service_type: nodeport
 ```
@@ -112,7 +112,7 @@ If you are on Openshift, you can take advantage of Routes by specifying the foll
 apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
-  name: awx-demo
+  name: ascender-demo
 spec:
   service_type: clusterip
   ingress_type: Route
@@ -126,17 +126,17 @@ Make sure to add this new file to the list of "resources" in your `kustomization
 resources:
   - github.com/ctrliq/ascender-operator/config/default?ref=<tag>
   # Add this extra line:
-  - awx-demo.yml
+  - ascender-demo.yml
 ...
 ```
 
-Finally, apply the changes to create the AWX instance in your cluster:
+Finally, apply the changes to create the Ascender instance in your cluster:
 
 ```
 kubectl apply -k .
 ```
 
-After a few minutes, the new AWX instance will be deployed. You can look at the operator pod logs in order to know where the installation process is at:
+After a few minutes, the new Ascender instance will be deployed. You can look at the operator pod logs in order to know where the installation process is at:
 
 ```
 $ kubectl logs -f deployments/ascender-operator-controller-manager -c ascender-manager
@@ -145,30 +145,30 @@ $ kubectl logs -f deployments/ascender-operator-controller-manager -c ascender-m
 After a few seconds, you should see the operator begin to create new resources:
 
 ```
-$ kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
+$ kubectl get pods -l "app.kubernetes.io/managed-by=ascender-operator"
 NAME                        READY   STATUS    RESTARTS   AGE
-awx-demo-77d96f88d5-pnhr8   4/4     Running   0          3m24s
-awx-demo-postgres-0         1/1     Running   0          3m34s
+ascender-demo-77d96f88d5-pnhr8   4/4     Running   0          3m24s
+ascender-demo-postgres-0         1/1     Running   0          3m34s
 
-$ kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator"
+$ kubectl get svc -l "app.kubernetes.io/managed-by=ascender-operator"
 NAME                TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-awx-demo-postgres   ClusterIP   None           <none>        5432/TCP       4m4s
-awx-demo-service    NodePort    10.109.40.38   <none>        80:31006/TCP   3m56s
+ascender-demo-postgres   ClusterIP   None           <none>        5432/TCP       4m4s
+ascender-demo-service    NodePort    10.109.40.38   <none>        80:31006/TCP   3m56s
 ```
 
-Once deployed, the AWX instance will be accessible by running:
+Once deployed, the Ascender instance will be accessible by running:
 
 ```
-$ minikube service -n awx awx-demo-service --url
+$ minikube service -n ascender ascender-demo-service --url
 ```
 
 By default, the admin user is `admin` and the password is available in the `<resourcename>-admin-password` secret. To retrieve the admin password, run:
 
 ```
-$ kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode ; echo
+$ kubectl get secret ascender-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode ; echo
 yDL2Cx5Za94g9MvBP6B73nzVLlmfgPjR
 ```
 
-You just completed the most basic install of an AWX instance via this operator. Congratulations!!!
+You just completed the most basic install of an Ascender instance via this operator. Congratulations!!!
 
 For an example using the Nginx Ingress Controller in Minikube, don't miss our [demo video](https://asciinema.org/a/416946).

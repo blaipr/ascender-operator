@@ -14,7 +14,7 @@ The operator's [helm install](https://ansible.readthedocs.io/projects/awx-operat
 Example:
 
 ```bash
-helm install my-ascender-operator ascender-operator/ascender-operator -n awx --create-namespace -f myvalues.yaml
+helm install my-ascender-operator ascender-operator/ascender-operator -n ascender --create-namespace -f myvalues.yaml
 ```
 
 Argument breakdown:

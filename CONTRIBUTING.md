@@ -2,7 +2,7 @@
 
 Hi there! We're excited to have you as a contributor.
 
-Have questions about this document or anything not covered here? Please file a new at [https://github.com/ctrliq/ascender-operator/issues](https://github.com/ctrliq/ascender-operator/issues).
+Have questions about this document or anything not covered here? Please file a new issue at [https://github.com/ctrliq/ascender-operator/issues](https://github.com/ctrliq/ascender-operator/issues).
 
 ## Table of contents
 
