@@ -84,7 +84,7 @@ Once the operator is deployed, you can visit the Ascender UI in your browser by 
   1. Make sure you have an entry like `IP_ADDRESS  example-awx.test` in your `/etc/hosts` file. (Get the IP address with `minikube ip`.)
   2. Visit `http://example-awx.test/` in your browser. (Default admin login is `test`/`changeme`.)
 
-Alternatively, you can also update the service `awx-service` in your namespace to use the type `NodePort` and use following command to get the URL to access your Ascender instance:
+Alternatively, you can also update the service `ascender-service` in your namespace to use the type `NodePort` and use following command to get the URL to access your Ascender instance:
 
 ```sh
 #> minikube service <serviceName> -n <namespaceName> --url
