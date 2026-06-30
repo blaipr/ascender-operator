@@ -22,7 +22,7 @@ spec:
   template:
     metadata:
       annotations:
-        kubectl.kubernetes.io/default-container: awx-manager
+        kubectl.kubernetes.io/default-container: ascender-manager
       labels:
         control-plane: controller-manager
     spec:
@@ -37,7 +37,7 @@ spec:
         - --leader-election-id=awx-operator
         image: controller:latest
         imagePullPolicy: IfNotPresent
-        name: awx-manager
+        name: ascender-manager
         env:
         - name: ANSIBLE_GATHERING
           value: explicit
