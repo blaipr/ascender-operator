@@ -8,9 +8,5 @@ metadata:
 data:
   99-overrides.conf: |
 {% for pg_setting in postgres_extra_settings %}
-{% if pg_setting.value is string %}
-    {{ pg_setting.setting }} = '{{ pg_setting.value }}'
-{% else %}
-    {{ pg_setting.setting }} = {{ pg_setting.value }}
-{% endif %}
+    {{ pg_setting.setting }} = '{{ pg_setting.value | string | replace("'", "''") }}'
 {% endfor %}

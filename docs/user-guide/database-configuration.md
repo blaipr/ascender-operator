@@ -102,7 +102,8 @@ spec:
 
 You can customize PostgreSQL configuration by adding settings to the `postgresql.conf` file using the `postgres_extra_settings` parameter. This allows you to tune PostgreSQL performance, security, and behavior according to your specific requirements.
 
-The `postgres_extra_settings` parameter accepts an array of setting objects, where each object contains a `setting` name and its corresponding `value`.
+The `postgres_extra_settings` parameter accepts an array of setting objects, where each object contains a `setting` name and its corresponding `value`,
+both of which are strings. It only applies to the managed PostgreSQL instance; it is ignored when an external database is configured.
 
 !!! note
     The `postgres_extra_settings` parameter replaces the deprecated `postgres_extra_args` parameter and provides a more structured way to configure PostgreSQL settings.
@@ -139,8 +140,8 @@ spec:
     - Always test configuration changes in a non-production environment first.
 
 !!! tip
-    - String values should be quoted in the YAML configuration.
-    - Numeric values can be provided as strings or numbers.
+    - Every `value` must be a string, so quote it in the YAML configuration.
+    - Numeric values are strings too (`"200"`, not `200`); an unquoted number is rejected by the CRD schema.
     - Boolean values should be provided as strings ("on"/"off" or "true"/"false").
 
 For a complete list of available PostgreSQL configuration parameters, refer to the [PostgreSQL documentation](https://www.postgresql.org/docs/current/runtime-config.html).
