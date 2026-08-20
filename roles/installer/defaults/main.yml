@@ -460,6 +460,11 @@ postgres_security_context_settings: {}
 # keeps existing behavior. task_privileged and redis_capabilities still apply.
 restricted_security_context: false
 
+# Seconds to wait for the control nodes' running jobs to finish before rolling
+# the deployments to a new application version. Opt-in; 0 keeps existing
+# behavior. See roles/installer/tasks/drain_control_nodes.yml.
+upgrade_drain_timeout: 0
+
 # Set no_log settings on certain tasks
 no_log: true
 

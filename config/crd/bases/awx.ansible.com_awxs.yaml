@@ -209,6 +209,11 @@ spec:
                 description: Optional duration in seconds pods needs to terminate gracefully
                 type: integer
                 format: int32
+              upgrade_drain_timeout:
+                description: Seconds to wait for the control nodes' running jobs to finish before rolling to a new application version. 0 does not wait.
+                type: integer
+                format: int32
+                default: 0
               service_labels:
                 description: Additional labels to apply to the service
                 type: string

@@ -29,11 +29,33 @@ following:
 
 One may want to set this value to the maximum duration they accept to wait for
 the affected Jobs to finish. Keeping in mind that such finishing jobs may
-increase Pods termination time in such situations as `kubectl rollout restart`,
-AWX upgrade by the operator, or Kubernetes [API-initiated
+increase Pods termination time in such situations as `kubectl rollout restart`
+or Kubernetes [API-initiated
 evictions](https://kubernetes.io/docs/concepts/scheduling-eviction/api-eviction/).
 
+#### Upgrades
 
-| Name                             | Description                                                     | Default |
-| -------------------------------- | --------------------------------------------------------------- | ------- |
-| termination_grace_period_seconds | Optional duration in seconds pods needs to terminate gracefully | not set |
+`termination_grace_period_seconds` does not cover an upgrade to a new AWX
+version on its own. Once the first Pod running the new version registers itself
+as an instance, every control node still running the old version stops its own
+services, because AWX shuts a node down when it sees a peer reporting a higher
+version. That happens from inside the container, so it preempts the `PreStop`
+hook, and the jobs the hook was waiting for fail with `Task was canceled due to
+receiving a shutdown signal.`
+
+Set `upgrade_drain_timeout` to also wait for those jobs *before* the new version
+is rolled out. When the application image changes, the operator disables each
+control node, so that new jobs stay pending rather than being scheduled onto a
+Pod that is about to be replaced, and waits for the jobs already running there
+to finish. Once they have, or once the timeout expires, the deployments are
+applied as usual. The wait happens before the schema migration runs, so the
+draining nodes are never running old code against a migrated database.
+
+A drain that reaches its timeout does not abort the upgrade: it proceeds, and
+any jobs still running are failed by the rollout as they would be without this
+setting.
+
+| Name                             | Description                                                                                                                                            | Default |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| termination_grace_period_seconds | Optional duration in seconds pods needs to terminate gracefully                                                                                          | not set |
+| upgrade_drain_timeout            | Seconds to wait for the control nodes' running jobs to finish before rolling the deployments to a new application version. 0 does not wait.               | 0       |

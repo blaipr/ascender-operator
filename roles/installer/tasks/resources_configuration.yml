@@ -245,6 +245,10 @@
   set_fact:
     _redis_image: "{{ _custom_redis_image | default(lookup('env', 'RELATED_IMAGE_AWX_REDIS')) | default(_default_redis_image, true) }}"
 
+- name: Let the control nodes' running jobs finish before rolling a new version
+  include_tasks: drain_control_nodes.yml
+  when: upgrade_drain_timeout | int > 0
+
 - name: Apply deployment resources
   k8s:
     apply: yes
