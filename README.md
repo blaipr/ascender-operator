@@ -1,10 +1,10 @@
 # Ascender Operator
 
-[![CI](https://github.com/ctrliq/ascender-operator/workflows/CI/badge.svg?event=push)](https://github.com/ctrliq/ascender-operator/actions)
+[![Devel](https://github.com/ctrliq/ascender-operator/actions/workflows/devel.yaml/badge.svg)](https://github.com/ctrliq/ascender-operator/actions/workflows/devel.yaml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 [![Operator SDK](https://img.shields.io/badge/built%20with-Operator%20SDK-blue.svg)](https://github.com/operator-framework/operator-sdk)
 
-A Kubernetes operator that deploys and manages [Ascender](https://github.com/ctrliq/ascender), built with the [Operator SDK](https://github.com/operator-framework/operator-sdk) and Ansible. It reconciles Ascender deployments, their backups and restores, and automation mesh ingress, from custom resources you apply to the cluster.
+A Kubernetes operator that deploys and manages [Ascender](https://github.com/ctrliq/ascender), built with the [Operator SDK](https://github.com/operator-framework/operator-sdk) and Ansible. It reconciles Ascender deployments, their backups and restores, and automation mesh ingress, from custom resources you apply.
 
 ## Requirements
 
