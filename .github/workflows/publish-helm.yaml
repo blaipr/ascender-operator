@@ -1,0 +1,80 @@
+---
+name: Publish Ascender Operator Helm chart
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Name for the tag of the release.'
+        required: true
+
+jobs:
+  publish-chart:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Set GitHub Env vars for workflow_dispatch event
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+
+      - name: Set GitHub Env vars if release event
+        if: ${{ github.event_name == 'release' }}
+        run: |
+          echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Package the chart
+        run: |
+          make helm-package VERSION="${TAG_NAME}"
+
+      - name: Attach the chart to the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CHART_NAME=$(make print-CHART_NAME)
+          gh release upload "${TAG_NAME}" \
+            ".cr-release-packages/${TAG_NAME}/${CHART_NAME}-${TAG_NAME}.tgz" --clobber
+
+      # The chart repository is the gh-pages branch of this repository: index.yaml lists
+      # every release that carries a chart, and each entry points at the tarball attached
+      # to that release.
+      - name: Publish the chart index to the gh-pages branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO_URL="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          if git ls-remote --exit-code --heads "${REPO_URL}" gh-pages > /dev/null; then
+            git clone --branch gh-pages --single-branch "${REPO_URL}" gh-pages
+          else
+            git clone --depth 1 "${REPO_URL}" gh-pages
+            git -C gh-pages switch --orphan gh-pages
+          fi
+
+          # helm repo index merges into an existing index, so seed one the first time
+          # the chart is published.
+          if [ ! -f gh-pages/index.yaml ]; then
+            printf 'apiVersion: v1\nentries: {}\n' > gh-pages/index.yaml
+          fi
+
+          make helm-index CHART_OWNER="${GITHUB_REPOSITORY_OWNER}"
+
+          cd gh-pages
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add index.yaml
+
+          # git commit exits non-zero when nothing is staged, so only commit when the
+          # index actually changed
+          if git diff --cached --quiet -- index.yaml; then
+            echo "index.yaml already lists ${TAG_NAME}; nothing to publish."
+          else
+            git commit -m "Update index.yaml for release ${TAG_NAME}"
+            git push origin gh-pages
+          fi

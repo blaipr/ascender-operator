@@ -61,10 +61,10 @@ IMG ?= $(IMAGE_TAG_BASE):$(VERSION)
 NAMESPACE ?= awx
 
 # Helm variables
-CHART_NAME ?= awx-operator
-CHART_DESCRIPTION ?= A Helm chart for the AWX Operator
+CHART_NAME ?= ascender-operator
+CHART_DESCRIPTION ?= A Helm chart for the Ascender Operator
 CHART_OWNER ?= $(GH_REPO_OWNER)
-CHART_REPO ?= awx-operator
+CHART_REPO ?= ascender-operator
 CHART_BRANCH ?= gh-pages
 CHART_DIR ?= gh-pages
 CHART_INDEX ?= index.yaml
@@ -341,7 +341,7 @@ helm-chart-generate: kustomize helm kubectl-slice yq charts
 	rm -rf charts/$(CHART_NAME)
 	# create new chart metadata in Chart.yaml
 	cd charts && \
-		$(HELM) create awx-operator --starter $(shell pwd)/.helm/starter ;\
+		$(HELM) create $(CHART_NAME) --starter $(shell pwd)/.helm/starter ;\
 		$(YQ) -i '.version = "$(VERSION)"' $(CHART_NAME)/Chart.yaml ;\
 		$(YQ) -i '.appVersion = "$(VERSION)" | .appVersion style="double"' $(CHART_NAME)/Chart.yaml ;\
 		$(YQ) -i '.description = "$(CHART_DESCRIPTION)"' $(CHART_NAME)/Chart.yaml ;\
@@ -389,7 +389,7 @@ helm-chart-generate: kustomize helm kubectl-slice yq charts
 	rm -rf charts/$(CHART_NAME)/raw-files
 
 	# create and populate NOTES.txt
-	@echo "AWX Operator installed with Helm Chart version $(VERSION)" > charts/$(CHART_NAME)/templates/NOTES.txt
+	@echo "Ascender Operator installed with Helm Chart version $(VERSION)" > charts/$(CHART_NAME)/templates/NOTES.txt
 
 	@echo "Helm chart successfully configured for $(CHART_NAME) version $(VERSION)"
 
@@ -399,7 +399,7 @@ helm-package: helm-chart
 	@echo "== Package Current Chart Version =="
 	mkdir -p .cr-release-packages
 	# package the chart and put it in .cr-release-packages dir
-	$(HELM) package ./charts/awx-operator -d .cr-release-packages/$(VERSION)
+	$(HELM) package ./charts/$(CHART_NAME) -d .cr-release-packages/$(VERSION)
 
 # List all tags oldest to newest.
 TAGS := $(shell git ls-remote --tags --sort=version:refname --refs -q | cut -d/ -f3)
@@ -408,7 +408,7 @@ TAGS := $(shell git ls-remote --tags --sort=version:refname --refs -q | cut -d/ 
 # until https://github.com/helm/chart-releaser/issues/122 happens, chart-releaser is not ideal for a chart
 # that is contained within a larger repo, where a tag may not require a new chart version
 .PHONY: helm-index
-helm-index:
+helm-index: helm
 	# when running in CI the gh-pages branch is checked out by the ansible playbook
 	# TODO: test if gh-pages directory exists and if not exist
 
