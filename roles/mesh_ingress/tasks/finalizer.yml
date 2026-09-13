@@ -29,5 +29,5 @@
     namespace: "{{ ansible_operator_meta.namespace }}"
     pod: "{{ awx_task_pod_name }}"
     container: "{{ deployment_name }}-task"
-    command: "awx-manage deprovision_instance --hostname {{ ansible_operator_meta.name }}"
+    command: "ascender-manage deprovision_instance --hostname {{ ansible_operator_meta.name }}"
   register: result

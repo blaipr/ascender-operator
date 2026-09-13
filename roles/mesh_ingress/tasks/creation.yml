@@ -122,7 +122,7 @@
     pod: "{{ awx_task_pod_name }}"
     container: "{{ deployment_name }}-task"
     command: |
-      awx-manage provision_instance
+      ascender-manage provision_instance
         --hostname {{ ansible_operator_meta.name }}
         --node_type hop
 
@@ -132,7 +132,7 @@
     pod: "{{ awx_task_pod_name }}"
     container: "{{ deployment_name }}-task"
     command: |
-      awx-manage add_receptor_address
+      ascender-manage add_receptor_address
         --instance {{ ansible_operator_meta.name }}
         --address {{ ansible_operator_meta.name }}
         --port 27199 --protocol ws
@@ -144,7 +144,7 @@
     pod: "{{ awx_task_pod_name }}"
     container: "{{ deployment_name }}-task"
     command: |
-      awx-manage add_receptor_address
+      ascender-manage add_receptor_address
         --instance {{ ansible_operator_meta.name }}
         --address {{ external_hostname }}
         --port 443 --protocol ws

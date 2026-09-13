@@ -50,7 +50,7 @@
     pod: "{{ awx_web_pod_name }}"
     container: "{{ ansible_operator_meta.name }}-web"
     command: >-
-      bash -c "awx-manage --version"
+      bash -c "ascender-manage --version"
   register: instance_version
   changed_when: false
   when: awx_web_pod_name != ''

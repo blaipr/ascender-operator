@@ -43,7 +43,7 @@
         namespace: '{{ namespace }}'
         pod: '{{ drain_web_pods.resources[0].metadata.name }}'
         container: example-awx-web
-        command: awx-manage list_instances
+        command: ascender-manage list_instances
       register: drain_instances
       changed_when: false
 

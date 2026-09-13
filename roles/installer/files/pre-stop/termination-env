@@ -21,7 +21,7 @@ stderr="${PRE_STOP_STDERR:-/proc/1/fd/2}"
 
 # command the `master` script executes, which when successfully finishes,
 # causes the script to create the `marker_file`
-handler="${PRE_STOP_HANDLER:-bash -c \"PYTHONUNBUFFERED=x awx-manage disable_instance --wait --retry=inf\"}"
+handler="${PRE_STOP_HANDLER:-bash -c \"PYTHONUNBUFFERED=x ascender-manage disable_instance --wait --retry=inf\"}"
 
 log_prefix="${PRE_STOP_LOG_PREFIX:-preStop.exec}"
 if [ -n "${PRE_STOP_LOG_ROLE:-}" ]; then
