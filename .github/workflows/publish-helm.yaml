@@ -9,6 +9,13 @@ on:
         description: 'Name for the tag of the release.'
         required: true
 
+# gh-pages takes one writer at a time, and publish-docs.yaml is the other one. Both
+# workflows name the same group, so a release that publishes the chart never overlaps
+# a docs build that is rewriting the site around index.yaml.
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
 jobs:
   publish-chart:
     runs-on: ubuntu-latest
@@ -76,5 +83,10 @@ jobs:
             echo "index.yaml already lists ${TAG_NAME}; nothing to publish."
           else
             git commit -m "Update index.yaml for release ${TAG_NAME}"
-            git push origin gh-pages
+
+            # publish-docs.yaml pushes to this branch too, so lose a race gracefully
+            git push origin gh-pages || {
+              git pull --rebase origin gh-pages
+              git push origin gh-pages
+            }
           fi
