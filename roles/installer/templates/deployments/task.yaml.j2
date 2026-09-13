@@ -296,7 +296,7 @@ spec:
           readinessProbe:
             exec:
               command:
-                - /usr/bin/awx-manage
+                - /usr/bin/ascender-manage
                 - check_instance_ready
             initialDelaySeconds: {{ task_readiness_initial_delay }}
             periodSeconds: {{ task_readiness_period }}

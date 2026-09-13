@@ -27,7 +27,7 @@
   when: _task_deployment['resources'] | length > 0
 
 # Nothing to drain on a fresh install, when the application image is unchanged
-# (every other reconcile), or when no web pod is available to run awx-manage in.
+# (every other reconcile), or when no web pod is available to run ascender-manage in.
 - name: Drain the control nodes
   when:
     - _deployed_image | default('') | length > 0
@@ -65,7 +65,7 @@
         namespace: '{{ ansible_operator_meta.namespace }}'
         pod: '{{ awx_web_pod_name }}'
         container: '{{ ansible_operator_meta.name }}-web'
-        command: awx-manage disable_instance --hostname {{ item }}
+        command: ascender-manage disable_instance --hostname {{ item }}
       loop: '{{ _control_hostnames }}'
       failed_when: false
 
@@ -78,7 +78,7 @@
         namespace: '{{ ansible_operator_meta.namespace }}'
         pod: '{{ awx_web_pod_name }}'
         container: '{{ ansible_operator_meta.name }}-web'
-        command: awx-manage disable_instance --hostname {{ item }} --wait --retry=1 --retry_sleep=1
+        command: ascender-manage disable_instance --hostname {{ item }} --wait --retry=1 --retry_sleep=1
       loop: '{{ _control_hostnames }}'
       register: _drain_result
       until: _drain_result.return_code | default(1) == 0

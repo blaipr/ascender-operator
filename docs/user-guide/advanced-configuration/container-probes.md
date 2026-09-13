@@ -42,7 +42,7 @@ This is an HTTP check against the status endpoint to confirm the system is still
 
 #### Task Container Readiness Check
 
-This is a command probe using the builtin check command of the awx-manage utility.
+This is a command probe using the builtin check command of the ascender-manage utility.
 
 | Name         | Description                        | Default |
 | -------------| ---------------------------------- | ------- |

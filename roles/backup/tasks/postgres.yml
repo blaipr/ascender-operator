@@ -107,7 +107,7 @@
     namespace: "{{ ansible_operator_meta.namespace }}"
     pod: "{{ awx_task_pod_name }}"
     container: "{{ deployment_name }}-task"
-    command: awx-manage precreate_partitions --count='{{ precreate_partition_hours }}'
+    command: ascender-manage precreate_partitions --count='{{ precreate_partition_hours }}'
   when: precreate_partition_hours > 0
   register: result
   changed_when: "'Created partitions for' in result.stdout"
