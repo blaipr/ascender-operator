@@ -1,6 +1,12 @@
 ---
 deployment_type: awx
 
+# The deployment this Mesh Ingress attaches to. It is a different kind at a
+# different version from the Mesh Ingress CR itself, so it cannot read the
+# `kind` and `api_version` the other roles use for their own resource.
+deployment_kind: 'AWX'
+deployment_api_version: '{{ deployment_type }}.ansible.com/v1beta1'
+
 ingress_type: none
 ingress_api_version: 'networking.k8s.io/v1'
 ingress_annotations: ''
