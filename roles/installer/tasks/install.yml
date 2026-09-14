@@ -77,10 +77,10 @@
   - ingress_type | lower == 'route'
   - route_tls_secret != ''
 
-- name: Wait for {{ deployment_type }}restore to complete
+- name: Wait for {{ restore_kind }} to complete
   kubernetes.core.k8s_info:
     api_version: "{{ api_version }}"
-    kind: "{{ deployment_type }}restore"
+    kind: "{{ restore_kind }}"
     namespace: "{{ ansible_operator_meta.namespace }}"
   register: restore_status_check
   until:

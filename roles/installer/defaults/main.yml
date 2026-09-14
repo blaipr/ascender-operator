@@ -1,6 +1,10 @@
 ---
 deployment_type: awx
 kind: 'AWX'
+
+# The restore CR this deployment waits on. Derived from deployment_type until
+# now, which tied it to the database and the labels along with the API group.
+restore_kind: 'AWXRestore'
 # Defaulted from deployment_type so today's value is unchanged; see the
 # comment in roles/common/defaults/main.yml for why it is separate.
 api_group: '{{ deployment_type }}.ansible.com'
