@@ -1,6 +1,11 @@
 ---
 # Required: specify name of tower deployment to restore to
 deployment_name: ''
+
+# The deployment being backed up or restored, which is a different kind from
+# this role's own CR. Hardcoded until now, which made it the last thing a
+# second API group could not vary.
+deployment_kind: 'AWX'
 kind: 'AWXRestore'
 # Defaulted from deployment_type so today's value is unchanged; see the
 # comment in roles/common/defaults/main.yml for why it is separate.

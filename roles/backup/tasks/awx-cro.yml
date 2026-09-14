@@ -3,7 +3,7 @@
 - name: Get AWX custom resource object
   k8s_info:
     version: v1beta1
-    kind: AWX
+    kind: '{{ deployment_kind }}'
     namespace: '{{ ansible_operator_meta.namespace }}'
     name: '{{ deployment_name }}'
   register: _awx_cro
