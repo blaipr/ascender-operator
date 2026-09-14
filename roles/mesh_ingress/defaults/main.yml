@@ -1,6 +1,16 @@
 ---
 deployment_type: awx
 
+# Defaulted from deployment_type so today's value is unchanged; see the
+# comment in roles/common/defaults/main.yml for why it is separate.
+api_group: '{{ deployment_type }}.ansible.com'
+
+# The deployment this Mesh Ingress attaches to. It is a different kind at a
+# different version from the Mesh Ingress CR itself, so it cannot read the
+# `kind` and `api_version` the other roles use for their own resource.
+deployment_kind: 'AWX'
+deployment_api_version: '{{ api_group }}/v1beta1'
+
 ingress_type: none
 ingress_api_version: 'networking.k8s.io/v1'
 ingress_annotations: ''

@@ -1,7 +1,16 @@
 ---
 deployment_type: awx
+
+# The API group is the one name here that can move on its own. deployment_type
+# also names the database, the database user and the label every object this
+# operator manages carries, and those cannot follow it: the database would need
+# renaming on an existing install, and a changed label leaves every selector
+# finding nothing. So the group reads its own variable, defaulted from
+# deployment_type so today's value is unchanged.
+api_group: '{{ deployment_type }}.ansible.com'
+
 kind: 'AWX'
-api_version: '{{ deployment_type }}.ansible.com/v1beta1'
+api_version: '{{ api_group }}/v1beta1'
 
 # Used to determine some cluster specific logic regarding projects_persistence pvc permissions
 is_k8s: false

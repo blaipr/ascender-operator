@@ -2,7 +2,10 @@
 # Required: specify name of tower deployment to restore to
 deployment_name: ''
 kind: 'AWXRestore'
-api_version: '{{ deployment_type }}.ansible.com/v1beta1'
+# Defaulted from deployment_type so today's value is unchanged; see the
+# comment in roles/common/defaults/main.yml for why it is separate.
+api_group: '{{ deployment_type }}.ansible.com'
+api_version: '{{ api_group }}/v1beta1'
 
 # Required: specify a pre-created PVC (name) to restore from
 backup_pvc: ''

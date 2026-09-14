@@ -9,8 +9,8 @@
 
 - name: Check for presence of AWX instance that we will use to create the Mesh Ingress for.
   k8s_info:
-    api_version: awx.ansible.com/v1beta1
-    kind: AWX
+    api_version: '{{ deployment_api_version }}'
+    kind: '{{ deployment_kind }}'
     name: "{{ deployment_name }}"
     namespace: "{{ ansible_operator_meta.namespace }}"
   register: awx_instance
@@ -28,18 +28,18 @@
   k8s:
     state: present
     definition:
-      apiVersion: awx.ansible.com/v1beta1
-      kind: AWX
+      apiVersion: '{{ deployment_api_version }}'
+      kind: '{{ deployment_kind }}'
       name: "{{ deployment_name }}"
       namespace: "{{ ansible_operator_meta.namespace }}"
       metadata:
         name: "{{ deployment_name }}"
         namespace: "{{ ansible_operator_meta.namespace }}"
         ownerReferences:
-        - apiVersion: awx.ansible.com/v1beta1
+        - apiVersion: '{{ deployment_api_version }}'
           blockOwnerDeletion: true
           controller: true
-          kind: AWX
+          kind: '{{ deployment_kind }}'
           name: "{{ deployment_name }}"
           uid: "{{ awx_instance.resources[0].metadata.uid }}"
   when: set_self_owneref | bool
