@@ -24,8 +24,8 @@ Example:
 
 ```yaml
 ---
-apiVersion: awx.ansible.com/v1alpha1
-kind: AWXMeshIngress
+apiVersion: ascender.ansible.com/v1alpha1
+kind: AscenderMeshIngress
 metadata:
   name: <mesh ingress name>
 spec:
@@ -44,8 +44,8 @@ Example:
 
 ```yaml
 ---
-apiVersion: awx.ansible.com/v1alpha1
-kind: AWXMeshIngress
+apiVersion: ascender.ansible.com/v1alpha1
+kind: AscenderMeshIngress
 metadata:
   name: <mesh ingress name>
 spec:
@@ -68,8 +68,8 @@ Example:
 
 ```yaml
 ---
-apiVersion: awx.ansible.com/v1alpha1
-kind: AWXMeshIngress
+apiVersion: ascender.ansible.com/v1alpha1
+kind: AscenderMeshIngress
 metadata:
   name: <mesh ingress name>
 spec:
@@ -100,8 +100,8 @@ Example:
 
 ```yaml
 ---
-apiVersion: awx.ansible.com/v1alpha1
-kind: AWXMeshIngress
+apiVersion: ascender.ansible.com/v1alpha1
+kind: AscenderMeshIngress
 metadata:
   name: <mesh ingress name>
 spec:
@@ -192,8 +192,8 @@ AWXMeshIngress controls the deployment and configuration of mesh ingress on Asce
 
 | Name                                                                                                                          | Description                                                                                                                                                         |
 | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`apiVersion`**                                                                                                              | awx.ansible.com/v1alpha1                                                                                                                                            |
-| **`kind`**                                                                                                                    | AWXMeshIngress                                                                                                                                                      |
+| **`apiVersion`**                                                                                                              | ascender.ansible.com/v1alpha1                                                                                                                                            |
+| **`kind`**                                                                                                                    | AscenderMeshIngress                                                                                                                                                      |
 | **`metadata`** ([ObjectMeta](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta)) | Standard object's metadata. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata)                               |
 | **`spec`** ([AWXMeshIngressSpec](#awxmeshingressspec))                                                                        | Spec is the desired state of the AWXMeshIngress. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status)   |
 | **`status`** ([AWXMeshIngressStatus](#awxmeshingressstatus))                                                                  | Status is the current state of the AWXMeshIngress. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status) |

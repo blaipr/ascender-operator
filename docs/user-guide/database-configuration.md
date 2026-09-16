@@ -2,9 +2,22 @@
 
 #### PostgreSQL Version
 
-The default PostgreSQL version for the managed database deployed by the latest version of the awx-operator is PostgreSQL 18, using the `quay.io/sclorg/postgresql-18-c9s` image. You can find this default for a given version at the default value for [supported_pg_version](https://github.com/ctrliq/ascender-operator/blob/devel/roles/installer/vars/main.yml).
+The default PostgreSQL version for the managed database deployed by the latest version of the Ascender Operator is PostgreSQL 18, using the `quay.io/sclorg/postgresql-18-c9s` image. You can find this default for a given version at the default value for [supported_pg_version](https://github.com/ctrliq/ascender-operator/blob/devel/roles/installer/vars/main.yml).
 
-We only have coverage for the default version of PostgreSQL. Newer versions of PostgreSQL will likely work, but should only be configured as an external database. If your database is managed by the awx-operator (default if you don't specify a `postgres_configuration_secret`), then you should not override the default version as this may cause issues when awx-operator tries to upgrade your postgresql pod.
+We only have coverage for the default version of PostgreSQL. Newer versions of PostgreSQL will likely work, but should only be configured as an external database. If your database is managed by the operator (default if you don't specify a `postgres_configuration_secret`), then you should not override the default version as this may cause issues when the operator tries to upgrade your postgresql pod.
+
+#### The name of a managed database
+
+A managed database is named after the kind the deployment is managed through, as is the
+role that owns it. A deployment created as an `Ascender` gets a database and a role called
+`ascender`; one created as an `AWX` gets `awx`. The same name appears on every object the
+operator manages, as `app.kubernetes.io/managed-by: ascender-operator` and
+`app.kubernetes.io/component: ascender`.
+
+The operator writes those into the `<name>-postgres-configuration` secret when it creates
+it, and reads that secret from then on, so an existing deployment keeps the database it
+already has. Moving one across is
+[a migration](../migration/awx-to-ascender.md), not a setting.
 
 #### External PostgreSQL Service
 

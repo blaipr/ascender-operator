@@ -51,10 +51,10 @@ For example:
 
 ```
 ---
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
 metadata:
-  name: awx-demo
+  name: ascender-demo
 spec:
   service_type: nodeport
   no_log: false                  # <------------

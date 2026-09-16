@@ -6,12 +6,12 @@ Then set the name of your priority class to the control plane and postgres pods 
 
 ```yaml
 ---
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
 metadata:
-  name: awx-demo
+  name: ascender-demo
 spec:
   ...
-  control_plane_priority_class: awx-demo-high-priority
-  postgres_priority_class: awx-demo-medium-priority
+  control_plane_priority_class: ascender-demo-high-priority
+  postgres_priority_class: ascender-demo-medium-priority
 ```

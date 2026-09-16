@@ -19,7 +19,7 @@ stringData:
 type: Opaque
 ```
 
-**Note**: `<resourcename>` must match the `name` of the AWX object you are creating. In our example below, it is `awx`.
+**Note**: `<resourcename>` must match the `name` of the Ascender object you are creating. In our example below, it is `ascender`.
 
 ### Old Database Credentials
 
@@ -54,13 +54,13 @@ you can pass that via the `postgres_label_selector` variable to make sure the po
 
 ## Deploy Ascender
 
-When you apply your AWX object, you must specify the name to the database secret you created above:
+When you apply your Ascender object, you must specify the name to the database secret you created above:
 
 ```yaml
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
 metadata:
-  name: awx
+  name: ascender
 spec:
   old_postgres_configuration_secret: <resourcename>-old-postgres-configuration
   secret_key_secret: <resourcename>-secret-key

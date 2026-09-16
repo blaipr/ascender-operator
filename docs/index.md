@@ -1,4 +1,4 @@
 
 The Ascender Operator provides a Kubernetes-native installation method for [Ascender](https://github.com/ctrliq/ascender), through a Custom Resource Definition (CRD) that describes a deployment and a controller that reconciles the cluster against it.
 
-These pages were forked from the AWX Operator documentation. The prose is Ascender's now, but the API is not renamed: the custom resources are still `AWX`, `AWXBackup`, `AWXRestore` and `AWXMeshIngress` in the `awx.ansible.com` group, so every manifest, field and command below keeps its original names.
+These pages were forked from the AWX Operator documentation. The operator serves the same four resources under two API groups: `Ascender`, `AscenderBackup`, `AscenderRestore` and `AscenderMeshIngress` in `ascender.ansible.com`, which is what these pages use and what a new deployment should be created as, and `AWX`, `AWXBackup`, `AWXRestore` and `AWXMeshIngress` in `awx.ansible.com`, which every field and command below works with just as well. A deployment is managed through one of them, never both, and an existing one keeps the kind it was created with until it is moved with `hack/migrate-awx-to-ascender.sh`.

@@ -59,6 +59,9 @@ Install the manifests by running this:
 ```
 $ kubectl apply -k .
 namespace/awx created
+customresourcedefinition.apiextensions.k8s.io/ascenderbackups.ascender.ansible.com created
+customresourcedefinition.apiextensions.k8s.io/ascenderrestores.ascender.ansible.com created
+customresourcedefinition.apiextensions.k8s.io/ascenders.ascender.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxbackups.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxrestores.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxs.awx.ansible.com created
@@ -89,16 +92,16 @@ So we don't have to keep repeating `-n awx`, let's set the current namespace for
 $ kubectl config set-context --current --namespace=awx
 ```
 
-Next, create a file named `awx-demo.yml` in the same folder with the suggested content below. The `metadata.name` you provide will be the name of the resulting Ascender deployment.
+Next, create a file named `ascender-demo.yml` in the same folder with the suggested content below. The `metadata.name` you provide will be the name of the resulting Ascender deployment.
 
 **Note:** If you deploy more than one Ascender instance to the same namespace, be sure to use unique names.
 
 ```yaml
 ---
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
 metadata:
-  name: awx-demo
+  name: ascender-demo
 spec:
   service_type: nodeport
 ```
@@ -109,10 +112,10 @@ If you are on Openshift, you can take advantage of Routes by specifying the foll
 
 ```yaml
 ---
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
 metadata:
-  name: awx-demo
+  name: ascender-demo
 spec:
   service_type: clusterip
   ingress_type: Route
@@ -126,7 +129,7 @@ Make sure to add this new file to the list of "resources" in your `kustomization
 resources:
   - github.com/ansible/awx-operator/config/default?ref=<tag>
   # Add this extra line:
-  - awx-demo.yml
+  - ascender-demo.yml
 ...
 ```
 
@@ -147,25 +150,25 @@ After a few seconds, you should see the operator begin to create new resources:
 ```
 $ kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
 NAME                        READY   STATUS    RESTARTS   AGE
-awx-demo-77d96f88d5-pnhr8   4/4     Running   0          3m24s
-awx-demo-postgres-0         1/1     Running   0          3m34s
+ascender-demo-77d96f88d5-pnhr8   4/4     Running   0          3m24s
+ascender-demo-postgres-0         1/1     Running   0          3m34s
 
 $ kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator"
 NAME                TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-awx-demo-postgres   ClusterIP   None           <none>        5432/TCP       4m4s
-awx-demo-service    NodePort    10.109.40.38   <none>        80:31006/TCP   3m56s
+ascender-demo-postgres   ClusterIP   None           <none>        5432/TCP       4m4s
+ascender-demo-service    NodePort    10.109.40.38   <none>        80:31006/TCP   3m56s
 ```
 
 Once deployed, the Ascender instance will be accessible by running:
 
 ```
-$ minikube service -n awx awx-demo-service --url
+$ minikube service -n awx ascender-demo-service --url
 ```
 
 By default, the admin user is `admin` and the password is available in the `<resourcename>-admin-password` secret. To retrieve the admin password, run:
 
 ```
-$ kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode ; echo
+$ kubectl get secret ascender-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode ; echo
 yDL2Cx5Za94g9MvBP6B73nzVLlmfgPjR
 ```
 
