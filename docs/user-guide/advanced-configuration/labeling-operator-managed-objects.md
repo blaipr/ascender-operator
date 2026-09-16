@@ -12,10 +12,10 @@ Example configuration where only `my/team` and `my/service` labels will be
 propagated to child objects (`Deployment`, `Secret`s, `ServiceAccount`, etc):
 
 ```yaml
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
 metadata:
-  name: awx-demo
+  name: ascender-demo
   labels:
     my/team: "foo"
     my/service: "bar"

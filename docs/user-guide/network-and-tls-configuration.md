@@ -105,8 +105,8 @@ spec:
   ...
   ingress_type: ingress
   ingress_hosts:
-    - hostname: awx-demo.example.com
-    - hostname: awx-demo.sample.com
+    - hostname: ascender-demo.example.com
+    - hostname: ascender-demo.sample.com
       tls_secret: sample-tls-secret
   ingress_annotations: |
     environment: testing
@@ -126,8 +126,8 @@ spec:
   ...
   ingress_type: ingress
   ingress_hosts:
-    - hostname: awx-demo.example.com
-    - hostname: awx-demo.sample.com
+    - hostname: ascender-demo.example.com
+    - hostname: ascender-demo.sample.com
       tls_secret: sample-tls-secret
   ingress_controller: contour
 ```
@@ -148,7 +148,7 @@ The following variables are customizable when `ingress_type=route`
 spec:
   ...
   ingress_type: route
-  route_host: awx-demo.example.com
+  route_host: ascender-demo.example.com
   route_tls_termination_mechanism: Passthrough
   route_tls_secret: custom-route-tls-secret-name
 ```

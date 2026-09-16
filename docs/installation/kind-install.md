@@ -95,10 +95,10 @@ Create a file called `awx-cr.yaml` with the following contents and any configura
 
 ```
 ---
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
 metadata:
-  name: awx-demo
+  name: ascender-demo
 spec:
   service_type: nodeport
   nodeport_port: 32000
@@ -112,7 +112,7 @@ kubectl create -f awx-cr.yaml
 
 Your Ascender instance should now be reacheable at http://localhost:32000/
 
-> If you configured a custom nodeport_port, you can find it by running `kubectl -n awx get svc awx-demo-service`
+> If you configured a custom nodeport_port, you can find it by running `kubectl -n awx get svc ascender-demo-service`
 
 
 
