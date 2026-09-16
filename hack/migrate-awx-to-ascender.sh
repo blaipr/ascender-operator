@@ -20,6 +20,9 @@
 # garbage_collect_secrets defaults to false, and the database is renamed rather
 # than dumped and reloaded.
 #
+# This is not the script that renames the operator's own objects. That is
+# rename-operator-objects.sh, and README.md says which you want.
+#
 # Usage:
 #   ./hack/migrate-awx-to-ascender.sh -n <namespace> <name>            # shows the plan
 #   ./hack/migrate-awx-to-ascender.sh -n <namespace> <name> --apply    # performs it

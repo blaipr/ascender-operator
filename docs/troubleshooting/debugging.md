@@ -5,7 +5,7 @@
 When the operator is deploying Ascender, it is running the `installer` role inside the operator container. If the AWX CR's status is `Failed`, it is often useful to look at the awx-operator container logs, which shows the output of the installer role. To see these logs, run:
 
 ```
-kubectl logs deployments/awx-operator-controller-manager -c awx-manager -f
+kubectl logs deployments/ascender-operator-controller-manager -c ascender-manager -f
 ```
 
 ### Inspect k8s Resources
@@ -75,7 +75,7 @@ $ pip install -r molecule/requirements.txt
 To prevent the changes we're about to make from being overwritten, scale down any running instance of the operator:
 
 ```
-$ kubectl scale deployment awx-operator-controller-manager --replicas=0
+$ kubectl scale deployment ascender-operator-controller-manager --replicas=0
 ```
 
 Create a playbook that invokes the installer role (the operator uses ansible-runner's role execution feature):
