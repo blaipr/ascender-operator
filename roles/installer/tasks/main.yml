@@ -12,7 +12,7 @@
 - name: Refuse to reconcile objects another deployment already manages
   fail:
     # yamllint disable-line rule:line-length
-    msg: "{{ conflicting_kind }}/{{ ansible_operator_meta.name }} already exists in namespace {{ ansible_operator_meta.namespace }}. Both kinds name and label every object they manage from deployment_type, which is {{ deployment_type }} on either side, so the two would reconcile the same Deployment, Service, StatefulSet and ConfigMap against different specs. Rename one of them, or remove the one that is no longer wanted."
+    msg: "{{ conflicting_kind }}/{{ ansible_operator_meta.name }} already exists in namespace {{ ansible_operator_meta.namespace }}. Both kinds name their Deployments, Services, StatefulSet, Secrets and volume claim after the resource rather than after deployment_type, so the two would reconcile the same objects against different specs, and neither could win: the labels they select on differ and a selector cannot be changed. Rename one of them, or move it across with hack/migrate-awx-to-ascender.sh."
   when:
     - conflicting_deployment is not failed
     - (conflicting_deployment.resources | default([]) | length) > 0

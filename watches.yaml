@@ -35,10 +35,15 @@
       finalizer_run: true
 
 # The same four resources under the Ascender group, reconciled by the same
-# playbook and roles. Only the names the group rename moves are overridden:
-# deployment_type stays awx, because it names the database, the database user
-# and the label every managed object carries, none of which can move without a
-# migration and a selector that finds nothing.
+# playbook and roles, with deployment_type following the kind. That is the
+# variable the naming hangs off: the database and its user, the label every
+# managed object carries, and the configmap names. A deployment created as an
+# Ascender is therefore Ascender all the way down, with no awx left in it.
+#
+# It is also why an existing deployment cannot simply be relabelled in place.
+# deployment_type appears in spec.selector.matchLabels, which Kubernetes will
+# not let anyone change, so moving one across means recreating its workloads
+# and renaming its database. hack/migrate-awx-to-ascender.sh does exactly that.
 - version: v1beta1
   group: ascender.ansible.com
   kind: Ascender
@@ -46,6 +51,7 @@
   snakeCaseParameters: False
   vars:
     api_group: ascender.ansible.com
+    deployment_type: ascender
     kind: Ascender
     restore_kind: AscenderRestore
     # Without this the guard in the installer would find this very object and
@@ -60,6 +66,7 @@
   snakeCaseParameters: False
   vars:
     api_group: ascender.ansible.com
+    deployment_type: ascender
     kind: AscenderBackup
     deployment_kind: Ascender
   finalizer:
@@ -68,6 +75,7 @@
     vars:
       finalizer_run: true
       api_group: ascender.ansible.com
+      deployment_type: ascender
       kind: AscenderBackup
       deployment_kind: Ascender
 
@@ -78,6 +86,7 @@
   snakeCaseParameters: False
   vars:
     api_group: ascender.ansible.com
+    deployment_type: ascender
     kind: AscenderRestore
     deployment_kind: Ascender
     backup_kind: AscenderBackup
@@ -89,6 +98,7 @@
   snakeCaseParameters: False
   vars:
     api_group: ascender.ansible.com
+    deployment_type: ascender
     deployment_kind: Ascender
   finalizer:
     name: ascender.ansible.com/ascender-mesh-ingress-finalizer
@@ -96,6 +106,7 @@
     vars:
       finalizer_run: true
       api_group: ascender.ansible.com
+      deployment_type: ascender
       deployment_kind: Ascender
 
 # +kubebuilder:scaffold:watch
