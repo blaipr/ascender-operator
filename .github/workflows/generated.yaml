@@ -29,4 +29,16 @@ jobs:
         run: make crds
 
       - name: Fail if the result differs from what is committed
-        run: git diff --exit-code config/crd/bases config/samples
+        run: git diff --exit-code config/crd/bases config/samples config/manifests/bases
+
+      # git diff says nothing about a file that was never added, so a new source
+      # rendering to a new target would pass the check above while the generated
+      # side is missing from the repository.
+      - name: Fail if the render produced a file that is not committed
+        run: |
+          untracked=$(git ls-files --others --exclude-standard config/crd/bases config/samples config/manifests/bases)
+          if [ -n "$untracked" ]; then
+            echo "rendered but not committed:"
+            echo "$untracked"
+            exit 1
+          fi

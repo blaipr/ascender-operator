@@ -89,7 +89,7 @@
 - name: Look up details for this deployment
   k8s_info:
     api_version: "{{ api_version }}"
-    kind: "AWX"
+    kind: "{{ deployment_kind }}"
     name: "{{ deployment_name }}"
     namespace: "{{ ansible_operator_meta.namespace }}"
   register: this_awx

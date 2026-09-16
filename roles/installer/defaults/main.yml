@@ -1,6 +1,13 @@
 ---
 deployment_type: awx
 kind: 'AWX'
+restore_kind: 'AWXRestore'
+# The other group serving the same four resources. deployment_type stays awx on
+# both sides, because it names the database, the database user and the label
+# every managed object carries, so two deployments of one name in one namespace
+# would reconcile the same objects against different specs.
+conflicting_kind: 'Ascender'
+conflicting_api_version: 'ascender.ansible.com/v1beta1'
 # Defaulted from deployment_type so today's value is unchanged; see the
 # comment in roles/common/defaults/main.yml for why it is separate.
 api_group: '{{ deployment_type }}.ansible.com'

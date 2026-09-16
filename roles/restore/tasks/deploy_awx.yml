@@ -16,11 +16,11 @@
       type: "Running"
       status: "True"
 
-- name: Remove ownerReferences to prevent garbage collection of new AWX CRO
+- name: Remove ownerReferences to prevent garbage collection of the new CRO
   k8s:
     definition:
       apiVersion: '{{ api_version }}'
-      kind: AWX
+      kind: '{{ deployment_kind }}'
       metadata:
         name: '{{ deployment_name }}'
         namespace: '{{ ansible_operator_meta.namespace }}'

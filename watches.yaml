@@ -48,6 +48,10 @@
     api_group: ascender.ansible.com
     kind: Ascender
     restore_kind: AscenderRestore
+    # Without this the guard in the installer would find this very object and
+    # refuse to reconcile it.
+    conflicting_kind: AWX
+    conflicting_api_version: awx.ansible.com/v1beta1
 
 - version: v1beta1
   group: ascender.ansible.com
