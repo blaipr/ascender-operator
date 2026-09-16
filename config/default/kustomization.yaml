@@ -1,5 +1,10 @@
 # Adds namespace to all resources.
-namespace: awx
+# The namespace a fresh install lands in. An existing install stays where it is:
+# the operator is namespace scoped, so the one already running keeps managing
+# the deployment beside it, and applying these manifests over an install in
+# another namespace stands a second operator up rather than moving anything.
+# docs/migration/namespace.md is the way across.
+namespace: ascender
 
 # Value of this field is prepended to the
 # names of all resources, e.g. a deployment named
