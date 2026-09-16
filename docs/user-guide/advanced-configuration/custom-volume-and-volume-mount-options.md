@@ -68,26 +68,24 @@ spec:
 !!! warning
     **Volume and VolumeMount names cannot contain underscores(_)**
 
-## Custom UWSGI Configuration
+## Web Service Listen Queue
 
-We allow the customization of two UWSGI parameters:
+The web service accepts one listen queue setting:
 
-* [processes](https://uwsgi-docs.readthedocs.io/en/latest/Options.html#processes) with `uwsgi_processes` (default 5)
-* [listen](https://uwsgi-docs.readthedocs.io/en/latest/Options.html#listen) with `uwsgi_listen_queue_size` (default 128)
+* `uwsgi_listen_queue_size` (default 128), the socket listen queue size for the web service
 
 **Note:** Increasing the listen queue beyond 128 requires that the sysctl setting net.core.somaxconn be set to an equal value or higher.
   The operator will set the appropriate securityContext sysctl value for you, but it is a required that this sysctl be added to an allowlist on the kubelet level. [See kubernetes docs about allowing this sysctl setting](https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/#enabling-unsafe-sysctls).
 
-These vars relate to the vertical and horizontal scalibility of the web service.
+Increasing the listen queue allows the web service to queue up requests not yet
+being handled, which may allow the web pods to handle more "bursty" request
+patterns if many requests (more than 128) tend to come in a short period of
+time, but can all be handled before any other time outs may apply. It also
+supplies the default for `nginx_worker_connections` and
+`nginx_listen_queue_size`, so see the related nginx configuration below.
 
-Increasing the number of processes allows more requests to be actively handled
-per web pod, but will consume more CPU and Memory and the resource requests
-should be increased in tandem.  Increasing the listen queue allows uwsgi to
-queue up requests not yet being handled by the active worker processes, which
-may allow the web pods to handle more "bursty" request patterns if many
-requests (more than 128) tend to come in a short period of time, but can all be
-handled before any other time outs may apply. Also see related nginx
-configuration.
+The name keeps its `uwsgi_` prefix because it is a field users set in the AWX
+spec. The web service itself is uvicorn.
 
 ## Custom Nginx Configuration
 
@@ -108,13 +106,12 @@ should be increased in tandem.  Increasing the listen queue allows nginx to
 queue up requests not yet being handled by the active worker processes, which
 may allow the web pods to handle more "bursty" request patterns if many
 requests (more than 128) tend to come in a short period of time, but can all be
-handled before any other time outs may apply. Also see related uwsgi
-configuration.
+handled before any other time outs may apply. Also see the web service listen queue above.
 
 * [worker_processes](http://nginx.org/en/docs/ngx_core_module.html#worker_processes) with `nginx_worker_processes` (default of 1)
 * [worker_cpu_affinity](http://nginx.org/en/docs/ngx_core_module.html#worker_cpu_affinity) with `nginx_worker_cpu_affinity` (default "auto")
 * [worker_connections](http://nginx.org/en/docs/ngx_core_module.html#worker_connections) with `nginx_worker_connections` (minimum of 1024)
-* [listen](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) with `nginx_listen_queue_size` (default same as uwsgi listen queue size)
+* [listen](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen) with `nginx_listen_queue_size` (defaults to `uwsgi_listen_queue_size`)
 
 ## Custom Logos
 

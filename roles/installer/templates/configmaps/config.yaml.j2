@@ -123,11 +123,7 @@ data:
         #tcp_nopush     on;
         #gzip  on;
 
-        upstream uwsgi {
-            server 127.0.0.1:8050;
-        }
-
-        upstream daphne {
+        upstream uvicorn {
             server 127.0.0.1:8051;
         }
 
@@ -203,7 +199,7 @@ data:
             location ~ ^({{ (ingress_path + '/websocket/').replace('//', '/') }}|{{ (ingress_path + '/api/websocket/').replace('//', '/') }}) {
 {% endif %}
                 # Pass request to the upstream alias
-                proxy_pass http://daphne;
+                proxy_pass http://uvicorn;
                 # Require http version 1.1 to allow for upgrade requests
                 proxy_http_version 1.1;
                 # We want proxy_buffering off for proxying to websockets.
@@ -226,12 +222,17 @@ data:
             location {{ ingress_path }} {
                 # Add trailing / if missing
                 rewrite ^(.*)$http_host(.*[^/])$ $1$http_host$2/ permanent;
-                uwsgi_read_timeout 120s;
-                uwsgi_pass uwsgi;
-                include /etc/nginx/uwsgi_params;
+                proxy_read_timeout 120s;
+                proxy_pass http://uvicorn;
+                # Require http version 1.1 so keepalive to the upstream works
+                proxy_http_version 1.1;
                 include /etc/nginx/conf.d/*.conf;
+                # uwsgi_params used to supply these over the uwsgi protocol
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto https;
+                proxy_set_header Host $http_host;
                 proxy_set_header X-Forwarded-Port 443;
-                uwsgi_param HTTP_X_FORWARDED_PORT 443;
+                proxy_redirect off;
 
                 add_header Strict-Transport-Security max-age=15768000;
                 # Protect against click-jacking https://www.owasp.org/index.php/Testing_for_Clickjacking_(OTG-CLIENT-009)
@@ -288,24 +289,3 @@ data:
     - work-signing:
         privatekey: /etc/receptor/work_private_key.pem
         tokenexpiration: 1m
-  uwsgi_conf: |
-    [uwsgi]
-    socket = 127.0.0.1:8050
-    processes = {{ uwsgi_processes }}
-    listen = {{ uwsgi_listen_queue_size }}
-    master = true
-    vacuum = true
-    no-orphans = true
-    lazy-apps = true
-    manage-script-name = true
-    master-fifo = /var/lib/awx/awxfifo
-    max-requests = 1000
-    buffer-size = 32768
-    
-    if-env = UWSGI_MOUNT_PATH
-    mount = %(_)=awx.wsgi:application
-    endif =
-    
-    if-not-env = UWSGI_MOUNT_PATH
-    mount = /=awx.wsgi:application
-    endif =
