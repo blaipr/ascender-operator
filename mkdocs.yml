@@ -48,6 +48,7 @@ nav:
   - Installation:
       - Installation: installation/index.md
       - installation/basic-install.md
+      - installation/kind-install.md
       - installation/creating-a-minikube-cluster-for-testing.md
       - installation/helm-install-on-existing-cluster.md
   - Migrate:
@@ -64,6 +65,9 @@ nav:
   - Advanced Configuration:
       - user-guide/advanced-configuration/deploying-a-specific-version-of-awx.md
       - user-guide/advanced-configuration/redis-container-capabilities.md
+      - user-guide/advanced-configuration/container-probes.md
+      - user-guide/advanced-configuration/horizontal-pod-autoscaler.md
+      - user-guide/advanced-configuration/resource-cleanup.md
       - user-guide/advanced-configuration/privileged-tasks.md
       - user-guide/advanced-configuration/security-context.md
       - user-guide/advanced-configuration/containers-resource-requirements.md
@@ -110,9 +114,13 @@ plugins:
             docstring_style: sphinx
             merge_init_into_class: yes
             show_submodules: yes
-          inventories:
-            - url: https://docs.ansible.com/ansible/latest/objects.inv
-              domains: [py, std]
+          # No page carries a ::: directive, so this handler renders nothing
+          # today. It used to pull https://docs.ansible.com/ansible/latest/
+          # objects.inv to cross reference Python symbols, and that fetch is
+          # what has been failing the build: the site answers 429 and strict
+          # mode turns it into an error, so the docs stopped publishing for an
+          # inventory no page consumes. Put it back beside the first page that
+          # needs it.
 
 markdown_extensions:
   - admonition
