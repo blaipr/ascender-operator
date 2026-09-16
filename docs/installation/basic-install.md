@@ -65,7 +65,7 @@ customresourcedefinition.apiextensions.k8s.io/ascenders.ascender.ansible.com cre
 customresourcedefinition.apiextensions.k8s.io/awxbackups.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxrestores.awx.ansible.com created
 customresourcedefinition.apiextensions.k8s.io/awxs.awx.ansible.com created
-serviceaccount/awx-operator-controller-manager created
+serviceaccount/ascender-operator-controller-manager created
 role.rbac.authorization.k8s.io/awx-operator-awx-manager-role created
 role.rbac.authorization.k8s.io/awx-operator-leader-election-role created
 clusterrole.rbac.authorization.k8s.io/awx-operator-metrics-reader created
@@ -74,8 +74,8 @@ rolebinding.rbac.authorization.k8s.io/awx-operator-awx-manager-rolebinding creat
 rolebinding.rbac.authorization.k8s.io/awx-operator-leader-election-rolebinding created
 clusterrolebinding.rbac.authorization.k8s.io/awx-operator-proxy-rolebinding created
 configmap/awx-operator-awx-manager-config created
-service/awx-operator-controller-manager-metrics-service created
-deployment.apps/awx-operator-controller-manager created
+service/ascender-operator-controller-manager-metrics-service created
+deployment.apps/ascender-operator-controller-manager created
 ```
 
 Wait a bit and you should have the `awx-operator` running:
@@ -83,7 +83,7 @@ Wait a bit and you should have the `awx-operator` running:
 ```
 $ kubectl get pods -n awx
 NAME                                               READY   STATUS    RESTARTS   AGE
-awx-operator-controller-manager-66ccd8f997-rhd4z   2/2     Running   0          11s
+ascender-operator-controller-manager-66ccd8f997-rhd4z   2/2     Running   0          11s
 ```
 
 So we don't have to keep repeating `-n awx`, let's set the current namespace for `kubectl`:
@@ -142,7 +142,7 @@ kubectl apply -k .
 After a few minutes, the new Ascender instance will be deployed. You can look at the operator pod logs in order to know where the installation process is at:
 
 ```
-$ kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+$ kubectl logs -f deployments/ascender-operator-controller-manager -c ascender-manager
 ```
 
 After a few seconds, you should see the operator begin to create new resources:

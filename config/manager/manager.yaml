@@ -37,7 +37,7 @@ spec:
         - --leader-election-id=awx-operator
         image: controller:latest
         imagePullPolicy: IfNotPresent
-        name: awx-manager
+        name: ascender-manager
         env:
         - name: ANSIBLE_GATHERING
           value: explicit

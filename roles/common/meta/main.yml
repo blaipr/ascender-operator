@@ -18,7 +18,7 @@ galaxy_info:
 
   galaxy_tags:
     - tower
-    - awx
+    - ascender
     - ansible
     - automation
     - ci
