@@ -1,6 +1,6 @@
 ---
 apiVersion: '{{ api_version }}'
-kind: AWX
+kind: '{{ deployment_kind }}'
 metadata:
   name: '{{ deployment_name }}'
   namespace: '{{ ansible_operator_meta.namespace }}'

@@ -2,6 +2,7 @@
 # Required: specify name of tower deployment to backup from
 deployment_name: ''
 kind: 'AWXBackup'
+deployment_kind: 'AWX'
 # Defaulted from deployment_type so today's value is unchanged; see the
 # comment in roles/common/defaults/main.yml for why it is separate.
 api_group: '{{ deployment_type }}.ansible.com'

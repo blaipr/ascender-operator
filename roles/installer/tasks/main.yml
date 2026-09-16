@@ -1,4 +1,22 @@
 ---
+- name: Look for a deployment of the same name under the other API group
+  k8s_info:
+    api_version: "{{ conflicting_api_version }}"
+    kind: "{{ conflicting_kind }}"
+    name: "{{ ansible_operator_meta.name }}"
+    namespace: "{{ ansible_operator_meta.namespace }}"
+  register: conflicting_deployment
+  # The other group's CRD need not be installed, and that is not an error here.
+  ignore_errors: true
+
+- name: Refuse to reconcile objects another deployment already manages
+  fail:
+    # yamllint disable-line rule:line-length
+    msg: "{{ conflicting_kind }}/{{ ansible_operator_meta.name }} already exists in namespace {{ ansible_operator_meta.namespace }}. Both kinds name their Deployments, Services, StatefulSet, Secrets and volume claim after the resource rather than after deployment_type, so the two would reconcile the same objects against different specs, and neither could win: the labels they select on differ and a selector cannot be changed. Rename one of them, or move it across with hack/migrate-awx-to-ascender.sh."
+  when:
+    - conflicting_deployment is not failed
+    - (conflicting_deployment.resources | default([]) | length) > 0
+
 - name: Check for presence of old awx Deployment
   k8s_info:
     api_version: apps/v1
