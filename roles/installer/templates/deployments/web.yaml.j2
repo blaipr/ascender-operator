@@ -237,10 +237,6 @@ spec:
             - name: "ca-trust-extracted"
               mountPath: "/etc/pki/ca-trust/extracted"
 {% endif %}
-            - name: {{ ansible_operator_meta.name }}-uwsgi-config
-              mountPath: "/etc/tower/uwsgi.ini"
-              subPath: uwsgi.conf
-              readOnly: true
             - name: "{{ ansible_operator_meta.name }}-application-credentials"
               mountPath: "/etc/tower/conf.d/execution_environments.py"
               subPath: execution_environments.py
@@ -319,7 +315,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
-            - name: UWSGI_MOUNT_PATH
+            - name: AWX_MOUNT_PATH
               value: "{{ ingress_path }}"
 {% if development_mode | bool %}
             - name: AWX_KUBE_DEVEL
@@ -487,12 +483,6 @@ spec:
               - key: valkey_conf
                 path: valkey.conf
         {{ lookup("template", "common/volumes/extra_settings_files.yaml.j2")  | indent(width=8) | trim }}
-        - name: {{ ansible_operator_meta.name }}-uwsgi-config
-          configMap:
-            name: {{ ansible_operator_meta.name }}-{{ deployment_type }}-configmap
-            items:
-              - key: uwsgi_conf
-                path: uwsgi.conf
         - name: {{ ansible_operator_meta.name }}-redis-socket
           emptyDir: {}
         - name: {{ ansible_operator_meta.name }}-redis-data
