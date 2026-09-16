@@ -53,6 +53,7 @@ nav:
   - Migrate:
       - migration/migration.md
       - migration/awx-to-ascender.md
+      - migration/namespace.md
   - Uninstall:
       - uninstall/uninstall.md
   - User Guide:
