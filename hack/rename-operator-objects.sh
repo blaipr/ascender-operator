@@ -17,6 +17,9 @@
 # that, because config/default includes ../crd, and deleting those CRDs cascades
 # to every AWX and Ascender in the cluster, which is every deployment.
 #
+# This is not the script that moves a deployment across. That is
+# migrate-awx-to-ascender.sh, and README.md says which you want.
+#
 # Usage:
 #   ./hack/rename-operator-objects.sh -n <namespace>            # shows what it would delete
 #   ./hack/rename-operator-objects.sh -n <namespace> --apply    # deletes it
@@ -38,7 +41,7 @@ while [ $# -gt 0 ]; do
         --apply)        APPLY=true; shift ;;
         --old-prefix)   OLD_PREFIX="$2"; shift 2 ;;
         --new-prefix)   NEW_PREFIX="$2"; shift 2 ;;
-        -h|--help)      sed -n '3,20p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+        -h|--help)      sed -n '3,25p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
         *)              die "unknown argument $1" ;;
     esac
 done
