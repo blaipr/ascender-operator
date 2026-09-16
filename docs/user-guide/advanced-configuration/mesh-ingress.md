@@ -9,7 +9,7 @@ For more information about remote execution and hop nodes and how to create them
 - AWX operator version > 2.11.0
 - AWX > 23.8.0
 
-## Deploy and configure AWXMeshIngress
+## Deploy and configure AscenderMeshIngress
 
 !!! note
     The mesh ingress uses the `control_plane_ee_image` and `image_pull_policy` fields of the Ascender instance to determine image and policy to be adopted.
@@ -18,7 +18,7 @@ For more information about remote execution and hop nodes and how to create them
 
 ### On Red Hat OpenShift with Operator managed Route
 
-To deploy a mesh ingress on OpenShift, create the AWXMeshIngress resource on the namespace where your Ascender instance is running on.
+To deploy a mesh ingress on OpenShift, create the AscenderMeshIngress resource on the namespace where your Ascender instance is running on.
 
 Example:
 
@@ -34,9 +34,9 @@ spec:
 
 ### On Kubernetes with Operator managed Ingress (NGINX)
 
-To deploy a mesh ingress on Kubernetes cluster which has [NGINX Ingress Controller](https://www.nginx.com/products/nginx-ingress-controller/), create the AWXMeshIngress resource on the namespace where your Ascender instance is running on.
+To deploy a mesh ingress on Kubernetes cluster which has [NGINX Ingress Controller](https://www.nginx.com/products/nginx-ingress-controller/), create the AscenderMeshIngress resource on the namespace where your Ascender instance is running on.
 
-Note that AWXMeshIngress requires [SSL Passthrough](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#ssl-passthrough) enabled which is disabled by default. Ensure it is enabled on your NGINX Ingress Controller.
+Note that AscenderMeshIngress requires [SSL Passthrough](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#ssl-passthrough) enabled which is disabled by default. Ensure it is enabled on your NGINX Ingress Controller.
 
 By specifying `ingress_controller` as `nginx`, Ascender Operator will generate Ingress resource that has `nginx.ingress.kubernetes.io/ssl-passthrough` annotation set to `"true"`.
 
@@ -60,9 +60,9 @@ spec:
 
 ### On Kubernetes with Operator managed Ingress (Traefik)
 
-To deploy a mesh ingress on Kubernetes cluster which has [Traefik Kubernetes Ingress provider](https://doc.traefik.io/traefik/providers/kubernetes-ingress/), create the AWXMeshIngress resource on the namespace where your Ascender instance is running on.
+To deploy a mesh ingress on Kubernetes cluster which has [Traefik Kubernetes Ingress provider](https://doc.traefik.io/traefik/providers/kubernetes-ingress/), create the AscenderMeshIngress resource on the namespace where your Ascender instance is running on.
 
-Note that by deploying following AWXMeshIngress, Ascender Operator will generate IngressRouteTCP resource that has `websecure` as an `entryPoints`. If this does not satisfy your requirement, refer to [User managed Ingress section](#on-kubernetes-with-user-managed-ingress) and  create an IngressRouteTCP resource manually.
+Note that by deploying following AscenderMeshIngress, Ascender Operator will generate IngressRouteTCP resource that has `websecure` as an `entryPoints`. If this does not satisfy your requirement, refer to [User managed Ingress section](#on-kubernetes-with-user-managed-ingress) and  create an IngressRouteTCP resource manually.
 
 Example:
 
@@ -90,7 +90,7 @@ spec:
 
 ### On Kubernetes with User managed Ingress
 
-To deploy a mesh ingress on Kubernetes cluster, create the AWXMeshIngress resource on the namespace where your Ascender instance is running on.
+To deploy a mesh ingress on Kubernetes cluster, create the AscenderMeshIngress resource on the namespace where your Ascender instance is running on.
 
 Alternatively, if you wish to create your own Ingress resource, you can deploy a mesh ingress with `ingress_type` set to `none` and then manually create an Ingress resource with any configuration.
 
@@ -116,8 +116,8 @@ The requirements for user managed Ingress resource are as follows:
 - Supports WebSocket
 - SSL/TLS Passthrough enabled
 - Accessible over port `443`
-- Having the same hostname as `external_hostname` in the AWXMeshIngress resource
-- Routing the traffic to port `27199` of the Service of the same name as the AWXMeshIngress resource
+- Having the same hostname as `external_hostname` in the AscenderMeshIngress resource
+- Routing the traffic to port `27199` of the Service of the same name as the AscenderMeshIngress resource
 
 These are example Ingress resources for NGINX and Traefik.
 
@@ -166,7 +166,7 @@ spec:
 
 ## Validating setup of Mesh Ingress
 
-After AWXMeshIngress has been successfully created, a new Instance with the same name will be registered to Ascender and will be visible on the Instance UI page
+After AscenderMeshIngress has been successfully created, a new Instance with the same name will be registered to Ascender and will be visible on the Instance UI page
 
 ![mesh ingress instance on Ascender UI](mesh-ingress-instance-on-awx-ui.png)
 
@@ -186,21 +186,21 @@ For more information about how to create external remote execution and hop nodes
 
 ## Custom Resource Definitions
 
-### AWXMeshIngress
+### AscenderMeshIngress
 
-AWXMeshIngress controls the deployment and configuration of mesh ingress on Ascender
+AscenderMeshIngress controls the deployment and configuration of mesh ingress on Ascender
 
 | Name                                                                                                                          | Description                                                                                                                                                         |
 | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`apiVersion`**                                                                                                              | ascender.ansible.com/v1alpha1                                                                                                                                            |
 | **`kind`**                                                                                                                    | AscenderMeshIngress                                                                                                                                                      |
 | **`metadata`** ([ObjectMeta](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/#ObjectMeta)) | Standard object's metadata. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata)                               |
-| **`spec`** ([AWXMeshIngressSpec](#awxmeshingressspec))                                                                        | Spec is the desired state of the AWXMeshIngress. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status)   |
-| **`status`** ([AWXMeshIngressStatus](#awxmeshingressstatus))                                                                  | Status is the current state of the AWXMeshIngress. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status) |
+| **`spec`** ([AscenderMeshIngressSpec](#ascendermeshingressspec))                                                                        | Spec is the desired state of the AscenderMeshIngress. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status)   |
+| **`status`** ([AscenderMeshIngressStatus](#ascendermeshingressstatus))                                                                  | Status is the current state of the AscenderMeshIngress. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status) |
 
-#### AWXMeshIngressSpec
+#### AscenderMeshIngressSpec
 
-AWXMeshIngressSpec is the description of the configuration for AWXMeshIngress.
+AscenderMeshIngressSpec is the description of the configuration for AscenderMeshIngress.
 
 | Name                                     | Description                                                                                                                                                                                                                                 | Default                                        |
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
@@ -213,17 +213,17 @@ AWXMeshIngressSpec is the description of the configuration for AWXMeshIngress.
 | **`ingress_controller`** (string)        | Special configuration for specific Ingress Controllers. This parameter is ignored when `ingress_type` is `Route`                                                                                                                            | `""`                                           |
 | **`ingress_class_name`** (string)        | The name of ingress class to use instead of the cluster default. see [IngressSpec](https://kubernetes.io/docs/reference/kubernetes-api/service-resources/ingress-v1/#IngressSpec). This parameter is ignored when `ingress_type` is `Route` | `""`                                           |
 
-#### AWXMeshIngressStatus
+#### AscenderMeshIngressStatus
 
-AWXMeshIngressStatus describe the current state of the AWXMeshIngress.
+AscenderMeshIngressStatus describe the current state of the AscenderMeshIngress.
 
-### AWXMeshIngressList
+### AscenderMeshIngressList
 
-AWXMeshIngressList is a collection of AWXMeshIngress.
+AscenderMeshIngressList is a collection of AscenderMeshIngress.
 
 | Name                                                                                                                    | Description                                                                                                                                                                                                                                                                                          |
 | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`items`** ([AWXMeshIngress](#awxmeshingress))                                                                         | items is the list of Ingress.                                                                                                                                                                                                                                                                        |
+| **`items`** ([AscenderMeshIngress](#ascendermeshingress))                                                                         | items is the list of Ingress.                                                                                                                                                                                                                                                                        |
 | **`apiVersion`** (string)                                                                                               | APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources)  |
 | **`kind`** (string)                                                                                                     | Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds) |
 | **`metadata`** ([ListMeta](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/list-meta/#ListMeta)) | Standard object's metadata. [More info](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata)                                                                                                                                                                |
