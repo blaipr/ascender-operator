@@ -22,10 +22,10 @@ data:
             return open('/etc/tower/SECRET_KEY', 'rb').read().strip()
 
     ADMINS = ()
-    STATIC_ROOT = '/var/lib/awx/public/static'
+    STATIC_ROOT = '/var/lib/ascender/public/static'
     STATIC_URL = '{{ (ingress_path + '/static/').replace('//', '/') }}'
-    PROJECTS_ROOT = '/var/lib/awx/projects'
-    JOBOUTPUT_ROOT = '/var/lib/awx/job_status'
+    PROJECTS_ROOT = '/var/lib/ascender/projects'
+    JOBOUTPUT_ROOT = '/var/lib/ascender/job_status'
 
     IS_K8S = True
 
@@ -182,15 +182,15 @@ data:
             }
 
             location {{ (ingress_path + '/static').replace('//', '/') }} {
-                alias /var/lib/awx/public/static/;
+                alias /var/lib/ascender/public/static/;
             }
 
             location {{ (ingress_path + '/locales').replace('//', '/') }} {
-                alias /var/lib/awx/public/static/awx/locales;
+                alias /var/lib/ascender/public/static/awx/locales;
             }
 
             location {{ (ingress_path + '/favicon.ico').replace('//', '/') }} {
-                alias /var/lib/awx/public/static/media/favicon.ico;
+                alias /var/lib/ascender/public/static/media/favicon.ico;
             }
 
 {% if api_urlpattern_prefix | length > 0 %}

@@ -203,8 +203,8 @@ spec:
             - /bin/sh
             - -c
             - |
-              chmod 775 /var/lib/awx/projects
-              chgrp 1000 /var/lib/awx/projects
+              chmod 775 /var/lib/ascender/projects
+              chgrp 1000 /var/lib/ascender/projects
           env:
             - name: MY_POD_NAME
               valueFrom:
@@ -212,7 +212,7 @@ spec:
                   fieldPath: metadata.name
           volumeMounts:
             - name: "{{ ansible_operator_meta.name }}-projects"
-              mountPath: "/var/lib/awx/projects"
+              mountPath: "/var/lib/ascender/projects"
 {% endif %}
       containers:
         - image: '{{ _redis_image }}'
@@ -342,7 +342,7 @@ spec:
             - name: receptor-socket
               mountPath: "/var/run/receptor"
             - name: "{{ ansible_operator_meta.name }}-projects"
-              mountPath: "/var/lib/awx/projects"
+              mountPath: "/var/lib/ascender/projects"
 {% if development_mode | bool %}
             - name: awx-devel
               mountPath: "/awx_devel"
@@ -432,7 +432,7 @@ spec:
             - name: receptor-socket
               mountPath: "/var/run/receptor"
             - name: "{{ ansible_operator_meta.name }}-projects"
-              mountPath: "/var/lib/awx/projects"
+              mountPath: "/var/lib/ascender/projects"
 {% if ee_extra_volume_mounts -%}
             {{ ee_extra_volume_mounts | indent(width=12, first=True) }}
 {% endif %}
