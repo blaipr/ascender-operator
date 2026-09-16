@@ -230,6 +230,20 @@
   set_fact:
     _image: "{{ _custom_image | default(lookup('env', 'RELATED_IMAGE_AWX')) | default(_default_image, true) }}"
 
+# A tag that is not a version, such as latest or a digest, says nothing about
+# what is inside it, so only a version-shaped one is compared.
+- name: Work out which Ascender version has been asked for
+  set_fact:
+    _requested_ascender_version: "{{ _image.split(':')[-1] }}"
+
+- name: Refuse an Ascender older than this operator can deploy
+  fail:
+    # yamllint disable-line rule:line-length
+    msg: "This operator cannot deploy Ascender {{ _requested_ascender_version }}. It calls /usr/bin/ascender-manage and serves the API through uvicorn, neither of which exists before {{ minimum_supported_ascender_version }}, so the deployment would come up and serve nothing. Use Ascender {{ minimum_supported_ascender_version }} or later, or an operator release that matches the version you are pinning."
+  when:
+    - _requested_ascender_version is match('^[0-9]+\\.[0-9]+\\.[0-9]+$')
+    - _requested_ascender_version is version(minimum_supported_ascender_version, '<')
+
 - name: Set default redis image
   set_fact:
     _default_redis_image: "{{ _redis_image }}:{{ _redis_image_version }}"
