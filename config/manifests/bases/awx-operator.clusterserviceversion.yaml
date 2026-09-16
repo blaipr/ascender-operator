@@ -555,12 +555,6 @@ spec:
         - urn:alm:descriptor:com.tectonic.ui:advanced
         - urn:alm:descriptor:com.tectonic.ui:number
         - urn:alm:descriptor:com.tectonic.ui:hidden
-      - displayName: Uwsgi Processes
-        path: uwsgi_processes
-        x-descriptors:
-        - urn:alm:descriptor:com.tectonic.ui:advanced
-        - urn:alm:descriptor:com.tectonic.ui:number
-        - urn:alm:descriptor:com.tectonic.ui:hidden
       - displayName: NGINX Worker Processes
         path: nginx_worker_processes
         x-descriptors:
@@ -1723,12 +1717,6 @@ spec:
         - urn:alm:descriptor:com.tectonic.ui:number
       - displayName: Uwsgi Listen Queue Length
         path: uwsgi_listen_queue_size
-        x-descriptors:
-        - urn:alm:descriptor:com.tectonic.ui:advanced
-        - urn:alm:descriptor:com.tectonic.ui:number
-        - urn:alm:descriptor:com.tectonic.ui:hidden
-      - displayName: Uwsgi Processes
-        path: uwsgi_processes
         x-descriptors:
         - urn:alm:descriptor:com.tectonic.ui:advanced
         - urn:alm:descriptor:com.tectonic.ui:number
