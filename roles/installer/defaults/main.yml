@@ -280,7 +280,7 @@ image_pull_secrets: []
 # Make sure that each command entered return an exit code 0
 # otherwise the initContainer will fail
 # init_container_extra_commands: |
-#   date >> /var/lib/awx/projects/timestamp
+#   date >> /var/lib/ascender/projects/timestamp
 #   chgrp 1000 /shared
 #   chmod 775 /shared
 init_container_extra_commands: ''

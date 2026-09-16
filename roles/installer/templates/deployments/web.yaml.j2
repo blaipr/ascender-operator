@@ -147,8 +147,8 @@ spec:
             - /bin/sh
             - -c
             - |
-              chmod 775 /var/lib/awx/projects
-              chgrp 1000 /var/lib/awx/projects
+              chmod 775 /var/lib/ascender/projects
+              chgrp 1000 /var/lib/ascender/projects
           env:
             - name: MY_POD_NAME
               valueFrom:
@@ -156,7 +156,7 @@ spec:
                   fieldPath: metadata.name
           volumeMounts:
             - name: "{{ ansible_operator_meta.name }}-projects"
-              mountPath: "/var/lib/awx/projects"
+              mountPath: "/var/lib/ascender/projects"
 {% endif %}
       containers:
         - image: '{{ _redis_image }}'
@@ -279,7 +279,7 @@ spec:
               mountPath: "/var/run/awx-rsyslog"
 {% if projects_persistence|bool %}
             - name: "{{ ansible_operator_meta.name }}-projects"
-              mountPath: "/var/lib/awx/projects"
+              mountPath: "/var/lib/ascender/projects"
 {% endif %}
             - name: "{{ ansible_operator_meta.name }}-receptor-ca"
               mountPath: "/etc/receptor/tls/ca/mesh-CA.crt"
