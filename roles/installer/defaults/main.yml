@@ -57,7 +57,7 @@ ingress_controller: ''
 # process like cert-manager (enabled via annotations) will store the TLS
 # certificate and key.
 # ingress_hosts:
-#   - hostname: awx-demo.example.com
+#   - hostname: ascender-demo.example.com
 #     tls_secret: example-com-tls
 ingress_hosts: ''
 

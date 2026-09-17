@@ -27,10 +27,10 @@ make deploy
 Apply a custom resource describing the deployment you want, then let the operator reconcile it:
 
 ```bash
-kubectl apply -f awx-demo.yml
+kubectl apply -f ascender-demo.yml
 ```
 
-An automation mesh ingress is declared the same way, using [`awxmeshingress-demo.yml`](./awxmeshingress-demo.yml) as the starting point.
+An automation mesh ingress is declared the same way, using [`ascendermeshingress-demo.yml`](./ascendermeshingress-demo.yml) as the starting point.
 
 ## Configuration
 

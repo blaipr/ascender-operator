@@ -1,0 +1,7 @@
+---
+apiVersion: ascender.ansible.com/v1beta1
+kind: Ascender
+metadata:
+  name: ascender-demo
+spec:
+  service_type: nodeport

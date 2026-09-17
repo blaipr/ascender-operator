@@ -1,0 +1,7 @@
+---
+apiVersion: ascender.ansible.com/v1alpha1
+kind: AscenderMeshIngress
+metadata:
+  name: ascender-mesh-ingress-demo
+spec:
+  deployment_name: ascender-demo
